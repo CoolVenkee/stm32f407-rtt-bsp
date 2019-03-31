@@ -106,16 +106,19 @@ file(GLOB_RECURSE SOURCES
         # app
         applications/main.c
         applications/test_wdt.c
+        applications/test_button.c
+        applications/test_at_client.c
         )
 
 include(network.cmake)
+include(pkg.cmake)
 
 # minilibc
 #add_definitions(-DHAVE_CCONFIG_H -DSTM32F407xx -DRT_USING_MINILIBC -DUSE_HAL_DRIVER)
 # newlib
 add_definitions(-DHAVE_CCONFIG_H -DSTM32F407xx -DRT_USING_NEWLIB -DUSE_HAL_DRIVER)
 
-add_executable(${PROJECT_NAME}.elf ${SOURCES} ${LWIP_SOURCES})
+add_executable(${PROJECT_NAME}.elf ${SOURCES} ${LWIP_SOURCES} ${PKG_SOURCES})
 
 set(HEX_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.hex)
 set(BIN_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.bin)
