@@ -9,6 +9,7 @@ set(CMAKE_ASM_COMPILER arm-none-eabi-gcc)
 set(OBJCOPY arm-none-eabi-objcopy)
 set(OBJDUMP arm-none-eabi-objdump)
 set(SIZE arm-none-eabi-size)
+
 set(CMAKE_C_FLAGS "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -ffunction-sections -fdata-sections -Dgcc -O0 -gdwarf-2 -g")
 set(CMAKE_ASM_FLAGS "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -ffunction-sections -fdata-sections -x assembler-with-cpp -Wa,-mimplicit-it=thumb -gdwarf-2")
 set(CMAKE_EXE_LINKER_FLAGS "-Wl,--gc-sections,-Map=rt-thread.map,-cref,-u,Reset_Handler -T ${CMAKE_CURRENT_LIST_DIR}/board/linker_scripts/link.lds")
@@ -30,6 +31,7 @@ include_directories(
         ${RTT_ROOT}/components/finsh
         ${RTT_ROOT}/components/drivers/include
         ${RTT_ROOT}/components/drivers/wlan/
+        ${RTT_ROOT}/components/dfs/include
 
         ${RTT_ROOT}/bsp/stm32/libraries/STM32F4xx_HAL/CMSIS/Device/ST/STM32F4xx/Include
         ${RTT_ROOT}/bsp/stm32/libraries/STM32F4xx_HAL/CMSIS/Include
@@ -50,6 +52,13 @@ file(GLOB_RECURSE SOURCES
         ${RTT_ROOT}/components/libc/compilers/newlib/stdio.c
         ${RTT_ROOT}/components/libc/compilers/newlib/syscalls.c
         ${RTT_ROOT}/components/libc/compilers/newlib/time.c
+        ${RTT_ROOT}/components/dfs/src/dfs.c
+        ${RTT_ROOT}/components/dfs/src/dfs_file.c
+        ${RTT_ROOT}/components/dfs/src/dfs_fs.c
+        ${RTT_ROOT}/components/dfs/src/dfs_posix.c
+        ${RTT_ROOT}/components/dfs/src/poll.c
+        ${RTT_ROOT}/components/dfs/src/select.c
+        ${RTT_ROOT}/components/dfs/filesystems/devfs/devfs.c
 
         # arch
         ${RTT_ROOT}/libcpu/arm/common/backtrace.c

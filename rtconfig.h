@@ -72,6 +72,12 @@
 
 /* Device virtual file system */
 
+#define RT_USING_DFS
+#define DFS_USING_WORKDIR
+#define DFS_FILESYSTEMS_MAX 2
+#define DFS_FILESYSTEM_TYPES_MAX 2
+#define DFS_FD_MAX 16
+#define RT_USING_DFS_DEVFS
 
 /* Device Drivers */
 
@@ -110,11 +116,20 @@
 /* POSIX layer and C standard library */
 
 #define RT_USING_LIBC
+#define RT_USING_POSIX
 
 /* Network */
 
 /* Socket abstraction layer */
 
+#define RT_USING_SAL
+
+/* protocol stack implement */
+
+#define SAL_USING_LWIP
+#define SAL_USING_AT
+#define SAL_USING_POSIX
+#define SAL_PROTO_FAMILIES_NUM 4
 
 /* light weight TCP/IP stack */
 
@@ -164,6 +179,7 @@
 #define AT_DEBUG
 #define AT_USING_CLIENT
 #define AT_CLIENT_NUM_MAX 1
+#define AT_USING_SOCKET
 #define AT_USING_CLI
 #define AT_CMD_MAX_LEN 128
 #define AT_SW_VERSION_NUM 0x10200
@@ -186,6 +202,16 @@
 
 /* Wiced WiFi */
 
+#define PKG_USING_AT_DEVICE
+#define PKG_AT_INIT_BY_THREAD
+#define AT_DEVICE_ESP8266
+#define AT_DEVICE_SOCKETS_NUM 5
+#define AT_DEVICE_NAME "uart3"
+#define AT_DEVICE_RECV_BUFF_LEN 512
+#define AT_DEVICE_WIFI_SSID "rtthread"
+#define AT_DEVICE_WIFI_PASSWORD "12345678"
+#define PKG_USING_AT_DEVICE_LATEST_VERSION
+#define PKG_AT_DEVICE_VER_NUM 0x99999
 
 /* IoT Cloud */
 

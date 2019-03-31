@@ -1,4 +1,8 @@
 include_directories(
+        ${RTT_ROOT}/components/net/sal_socket/include
+        ${RTT_ROOT}/components/net/sal_socket/include/socket
+        ${RTT_ROOT}/components/net/sal_socket/impl
+        ${RTT_ROOT}/components/net/sal_socket/include/socket/sys_socket
         ${RTT_ROOT}/components/net/lwip-2.0.2/src
         ${RTT_ROOT}/components/net/lwip-2.0.2/src/include
         ${RTT_ROOT}/components/net/lwip-2.0.2/src/include/ipv4
@@ -6,13 +10,20 @@ include_directories(
         ${RTT_ROOT}/components/net/lwip-2.0.2/src/include/netif
         ${RTT_ROOT}/components/net/lwip-2.0.2/src/include/posix
         ${RTT_ROOT}/components/net/at/include
+        ${RTT_ROOT}/components/net/at/at_socket
 )
 file(GLOB_RECURSE LWIP_SOURCES
-        ${RTT_ROOT}/components/net/lwip-2.0.2/src/api/pi_msg.c
-        ${RTT_ROOT}/components/net/lwip-2.0.2/src/api/pi_lib.c
-        ${RTT_ROOT}/components/net/lwip-2.0.2/src/api/rr.c
-        ${RTT_ROOT}/components/net/lwip-2.0.2/src/api/etbuf.c
-        ${RTT_ROOT}/components/net/lwip-2.0.2/src/api/etdb.c
+        ${RTT_ROOT}/components/net/sal_socket/impl/dfs_net.c
+        ${RTT_ROOT}/components/net/sal_socket/impl/af_inet_at.c
+        ${RTT_ROOT}/components/net/sal_socket/impl/af_inet_lwip.c
+        ${RTT_ROOT}/components/net/sal_socket/socket/net_netdb.c
+        ${RTT_ROOT}/components/net/sal_socket/src/sal_ipaddr.c
+        ${RTT_ROOT}/components/net/sal_socket/src/sal_socket.c
+        ${RTT_ROOT}/components/net/lwip-2.0.2/src/api/api_lib.c
+        ${RTT_ROOT}/components/net/lwip-2.0.2/src/api/api_msg.c
+        ${RTT_ROOT}/components/net/lwip-2.0.2/src/api/err.c
+        ${RTT_ROOT}/components/net/lwip-2.0.2/src/api/netbuf.c
+        ${RTT_ROOT}/components/net/lwip-2.0.2/src/api/netdb.c
         ${RTT_ROOT}/components/net/lwip-2.0.2/src/api/netifapi.c
         ${RTT_ROOT}/components/net/lwip-2.0.2/src/api/sockets.c
         ${RTT_ROOT}/components/net/lwip-2.0.2/src/api/tcpip.c
@@ -47,4 +58,5 @@ file(GLOB_RECURSE LWIP_SOURCES
         ${RTT_ROOT}/components/net/at/src/at_utils.c
         ${RTT_ROOT}/components/net/at/src/at_cli.c
         ${RTT_ROOT}/components/net/at/src/at_client.c
+        ${RTT_ROOT}/components/net/at/at_socket/at_socket.c
         )
