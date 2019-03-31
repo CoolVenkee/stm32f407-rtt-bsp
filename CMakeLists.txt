@@ -41,20 +41,18 @@ file(GLOB_RECURSE SOURCES
         # kernel
         ${RTT_ROOT}/src/*
 
-        # component
+        # components
         ${RTT_ROOT}/components/finsh/*
         ${RTT_ROOT}/components/libc/compilers/minilibc/*
 
-        # board specific
-        applications/main.c
-        applications/test_wdt.c
-        board/board.c
-        board/CubeMX_Config/Src/stm32f4xx_hal_msp.c
+        # arch
         ${RTT_ROOT}/libcpu/arm/common/backtrace.c
         ${RTT_ROOT}/libcpu/arm/common/div0.c
         ${RTT_ROOT}/libcpu/arm/common/showmem.c
         ${RTT_ROOT}/libcpu/arm/cortex-m4/context_gcc.S
         ${RTT_ROOT}/libcpu/arm/cortex-m4/cpuport.c
+
+        # HAL
         ${RTT_ROOT}/bsp/stm32/libraries/STM32F4xx_HAL/CMSIS/Device/ST/STM32F4xx/Source/Templates/gcc/startup_stm32f407xx.s
         ${RTT_ROOT}/bsp/stm32/libraries/STM32F4xx_HAL/CMSIS/Device/ST/STM32F4xx/Source/Templates/system_stm32f4xx.c
         ${RTT_ROOT}/bsp/stm32/libraries/STM32F4xx_HAL/STM32F4xx_HAL_Driver/src/stm32f4xx_hal.c
@@ -75,12 +73,14 @@ file(GLOB_RECURSE SOURCES
         ${RTT_ROOT}/bsp/stm32/libraries/STM32F4xx_HAL/STM32F4xx_HAL_Driver/src/stm32f4xx_hal_usart.c
         ${RTT_ROOT}/bsp/stm32/libraries/STM32F4xx_HAL/STM32F4xx_HAL_Driver/src/stm32f4xx_hal_iwdg.c
         ${RTT_ROOT}/bsp/stm32/libraries/STM32F4xx_HAL/STM32F4xx_HAL_Driver/src/stm32f4xx_hal_wwdg.c
+        ${RTT_ROOT}/bsp/stm32/libraries/STM32F4xx_HAL/STM32F4xx_HAL_Driver/src/stm32f4xx_hal_eth.c
 
         # drivers
         ${RTT_ROOT}/bsp/stm32/libraries/HAL_Drivers/drv_gpio.c
         ${RTT_ROOT}/bsp/stm32/libraries/HAL_Drivers/drv_usart.c
         ${RTT_ROOT}/bsp/stm32/libraries/HAL_Drivers/drv_common.c
         ${RTT_ROOT}/bsp/stm32/libraries/HAL_Drivers/drv_wdt.c
+        ${RTT_ROOT}/bsp/stm32/libraries/HAL_Drivers/drv_eth.c
         ${RTT_ROOT}/bsp/stm32/libraries/HAL_Drivers/drv_soft_i2c.c
         ${RTT_ROOT}/components/drivers/src/*
         ${RTT_ROOT}/components/drivers/misc/pin.c
@@ -91,19 +91,30 @@ file(GLOB_RECURSE SOURCES
         ${RTT_ROOT}/components/drivers/i2c/i2c_core.c
         ${RTT_ROOT}/components/drivers/i2c/i2c_dev.c
         ${RTT_ROOT}/components/drivers/i2c/i2c-bit-ops.c
+
+        # board specific
+        board/board.c
+        board/ports/phy_reset.c
+        board/CubeMX_Config/Src/stm32f4xx_hal_msp.c
+
+        # app
+        applications/main.c
+        applications/test_wdt.c
         )
 
 include(lwip.cmake)
 
-add_definitions(-DSTM32F407xx -DRT_USING_MINILIBC -DUSE_HAL_DRIVER)
+add_definitions(-DHAVE_CCONFIG_H -DSTM32F407xx -DRT_USING_MINILIBC -DUSE_HAL_DRIVER)
 
 add_executable(${PROJECT_NAME}.elf ${SOURCES} ${LWIP_SOURCES})
 
-#add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
-#        COMMAND ${CMAKE_OBJCOPY} -Oihex $<TARGET_FILE:${PROJECT_NAME}.elf> ${HEX_FILE}
-#        COMMAND ${CMAKE_OBJCOPY} -Obinary $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
-#        COMMENT "Building ${HEX_FILE} Building ${BIN_FILE}"
-#        )
+set(HEX_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.hex)
+set(BIN_FILE ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.bin)
+add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
+        COMMAND ${CMAKE_OBJCOPY} -Oihex $<TARGET_FILE:${PROJECT_NAME}.elf> ${HEX_FILE}
+        COMMAND ${CMAKE_OBJCOPY} -Obinary $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
+        COMMENT
+        "Building ${HEX_FILE}\nBuilding ${BIN_FILE}")
 
 add_custom_target(UPLOAD
         arm-none-eabi-gdb -iex "target remote tcp:127.0.0.1:3333"
