@@ -25,7 +25,8 @@ include_directories(
         board/CubeMX_Config/Inc
 
         ${RTT_ROOT}/include
-        ${RTT_ROOT}/components/libc/compilers/minilibc
+        ${RTT_ROOT}/components/libc/compilers/common
+        ${RTT_ROOT}/components/libc/compilers/newlib
         ${RTT_ROOT}/components/finsh
         ${RTT_ROOT}/components/drivers/include
         ${RTT_ROOT}/components/drivers/wlan/
@@ -43,7 +44,12 @@ file(GLOB_RECURSE SOURCES
 
         # components
         ${RTT_ROOT}/components/finsh/*
-        ${RTT_ROOT}/components/libc/compilers/minilibc/*
+        ${RTT_ROOT}/components/libc/compilers/common/gmtime_r.c
+        ${RTT_ROOT}/components/libc/compilers/newlib/libc.c
+        ${RTT_ROOT}/components/libc/compilers/newlib/libc_syms.c
+        ${RTT_ROOT}/components/libc/compilers/newlib/stdio.c
+        ${RTT_ROOT}/components/libc/compilers/newlib/syscalls.c
+        ${RTT_ROOT}/components/libc/compilers/newlib/time.c
 
         # arch
         ${RTT_ROOT}/libcpu/arm/common/backtrace.c
@@ -102,9 +108,12 @@ file(GLOB_RECURSE SOURCES
         applications/test_wdt.c
         )
 
-include(lwip.cmake)
+include(network.cmake)
 
-add_definitions(-DHAVE_CCONFIG_H -DSTM32F407xx -DRT_USING_MINILIBC -DUSE_HAL_DRIVER)
+# minilibc
+#add_definitions(-DHAVE_CCONFIG_H -DSTM32F407xx -DRT_USING_MINILIBC -DUSE_HAL_DRIVER)
+# newlib
+add_definitions(-DHAVE_CCONFIG_H -DSTM32F407xx -DRT_USING_NEWLIB -DUSE_HAL_DRIVER)
 
 add_executable(${PROJECT_NAME}.elf ${SOURCES} ${LWIP_SOURCES})
 

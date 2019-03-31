@@ -5,6 +5,7 @@ include_directories(
         ${RTT_ROOT}/components/net/lwip-2.0.2/src/arch/include
         ${RTT_ROOT}/components/net/lwip-2.0.2/src/include/netif
         ${RTT_ROOT}/components/net/lwip-2.0.2/src/include/posix
+        ${RTT_ROOT}/components/net/at/include
 )
 file(GLOB_RECURSE LWIP_SOURCES
         ${RTT_ROOT}/components/net/lwip-2.0.2/src/api/pi_msg.c
@@ -43,5 +44,7 @@ file(GLOB_RECURSE LWIP_SOURCES
         ${RTT_ROOT}/components/net/lwip-2.0.2/src/netif/ethernet.c
         ${RTT_ROOT}/components/net/lwip-2.0.2/src/netif/ethernetif.c
         ${RTT_ROOT}/components/net/lwip-2.0.2/src/netif/lowpan6.c
-
+        ${RTT_ROOT}/components/net/at/src/at_utils.c
+        ${RTT_ROOT}/components/net/at/src/at_cli.c
+        ${RTT_ROOT}/components/net/at/src/at_client.c
         )
